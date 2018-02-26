@@ -17,7 +17,7 @@ domaines=$(echo $domaines | sed 's/^|//g');
 
 options="-p $port:9980 -e domain=$domaines --cap-add MKNOD"
 
-docker run -d --name=$app --restart always $options $image >/dev/null 2>&1
+docker run -d --name=$app --restart always $options $image 1>&2
 RT=$?
 
 sleep 20
