@@ -1,0 +1,36 @@
+{
+    "name": "Collabora",
+    "id": "collabora",
+    "url": "https://nextcloud.com/collaboraonline/",
+    "packaging_format": 1,
+    "description": {
+        "en": "Collabora Online is a powerful LibreOffice-based online office suite",
+        "fr": "Collabora Online est une puissante suite bureautique en ligne basée sur LibreOffice"
+    },
+    "version": "1.0",
+    "license": "AGPL-3.0",
+    "maintainer": {
+        "name": "aymhce",
+        "email": "aymhce@gmail.com"
+    },
+    "requirements": {
+        "yunohost": ">= 2.7.2"
+    },
+    "services": [
+        "nginx"
+     ],
+    "multi_instance": true,
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "type": "domain",
+                "ask": {
+                    "en": "Choose a domain for Collabora",
+                    "fr": "Choisissez un domaine pour Collabora"
+                },
+                "example": "app.domain.org"
+            }
+        ]
+    }
+}

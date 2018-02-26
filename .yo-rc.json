@@ -1,0 +1,18 @@
+{
+  "generator-dockerapp-yunohost": {
+    "beautifulName": "Collabora",
+    "defaultPathOption": "",
+    "forceSecureAccess": false,
+    "secureAccessOption": false,
+    "adminUserOption": false,
+    "enDescription": "Collabora Online is a powerful LibreOffice-based online office suite",
+    "frDescription": "Collabora Online est une puissante suite bureautique en ligne basée sur LibreOffice",
+    "urlApp": "https://nextcloud.com/collaboraonline/",
+    "urlDockerHub": "https://hub.docker.com/r/collabora/code/",
+    "authorName": "aymhce",
+    "authorEmail": "aymhce@gmail.com",
+    "idName": "collabora",
+    "reverseProxyProtocol": "https",
+    "scriptsLoadSave": false
+  }
+}

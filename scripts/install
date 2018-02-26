@@ -1,0 +1,88 @@
+#!/bin/bash
+
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+
+# Retrieve arguments
+app=$YNH_APP_INSTANCE_NAME
+domain=$YNH_APP_ARG_DOMAIN
+
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# Source YunoHost helpers
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+ynh_abort_if_errors
+
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
+
+# store settings
+
+
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+
+# Check or install docker
+dockerapp_ynh_checkinstalldocker
+
+# Check domain/path availability
+dockerapp_ynh_loadvariables
+ynh_webpath_available $domain $path_url
+ynh_webpath_register $app $domain $path_url
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+dockerapp_ynh_findreplaceallvaribles
+
+#=================================================
+# COPY CONF
+#=================================================
+
+# Copy files to the right place
+dockerapp_ynh_copyconf
+
+#=================================================
+# START AND CREATE SERVICE
+#=================================================
+
+# docker run
+dockerapp_ynh_run
+
+# get and save port
+dockerapp_ynh_getandsaveport
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+
+# Modify Nginx configuration file and copy it to Nginx conf directory
+dockerapp_ynh_preparenginx
+
+#=================================================
+# SETUP SSOWAT
+#=================================================
+
+
+ynh_app_setting_set $app skipped_uris "/"
+
+
+#=================================================
+# RELOAD SSOWAT
+#=================================================
+
+# Regenerate SSOwat conf
+dockerapp_ynh_reloadservices

@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -eu
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+ynh_abort_if_errors
+
+#=================================================
+# LOAD SETTINGS
+#=================================================
+
+app=$YNH_APP_INSTANCE_NAME
+domain=$(ynh_app_setting_get "$app" domain)
+
+
+#=================================================
+# CHECK IF THE APP CAN BE RESTORED
+#=================================================
+
+test ! -d /home/yunohost.docker/$app \
+        || ynh_die "There is already a directory: /home/yunohost.docker/$app "
+
+#=================================================
+# IMPORT GENERIC HELPERS AFTER YNH_DIE FOR LINTER
+#=================================================
+
+[ ! -e _common.sh ] && cp ../settings/scripts/_common.sh ./.
+[ ! -e _dockertest.sh ] && cp ../settings/scripts/_dockertest.sh ./.
+[ ! -e docker/ ] && cp -rf ../settings/scripts/docker/ ./.
+source _common.sh
+
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+
+# check or install docker
+dockerapp_ynh_checkinstalldocker
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+dockerapp_ynh_loadvariables
+dockerapp_ynh_findreplaceallvaribles
+
+#=================================================
+# RESTORE THE APP MAIN DIR
+#=================================================
+
+ynh_restore_file "$data_path"
+
+#=================================================
+# START AND CREATE SERVICE
+#=================================================
+
+# docker run
+dockerapp_ynh_run
+
+#=================================================
+# RESTORE THE NGINX CONFIGURATION
+#=================================================
+
+ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
+systemctl reload nginx
+
+#=================================================
+# RELOAD SSOWAT
+#=================================================
+
+# Regenerate SSOwat conf
+dockerapp_ynh_reloadservices
+

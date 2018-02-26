@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# Source YunoHost helpers
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# LOAD SETTINGS
+#=================================================
+
+# Retrieve app settings
+app=$YNH_APP_INSTANCE_NAME
+domain=$(ynh_app_setting_get "$app" domain)
+
+dockerapp_ynh_loadvariables
+
+#=================================================
+# STOP AND REMOVE SERVICE
+#=================================================
+
+# docker rm
+dockerapp_ynh_rm
+
+#=================================================
+# REMOVE APP MAIN DIR
+#=================================================
+
+# Remove conf and app
+ynh_secure_remove $data_path
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+
+ynh_remove_nginx_config
+
+#=================================================
+# RELOAD SSOWAT
+#=================================================
+
+# Regenerate SSOwat conf
+dockerapp_ynh_reloadservices
