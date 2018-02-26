@@ -11,7 +11,7 @@
     "urlDockerHub": "https://hub.docker.com/r/collabora/code/",
     "authorName": "aymhce",
     "authorEmail": "aymhce@gmail.com",
-    "idName": "collabora",
+    "idName": "collaboradocker",
     "reverseProxyProtocol": "https",
     "scriptsLoadSave": false
   }

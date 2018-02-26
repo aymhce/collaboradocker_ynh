@@ -1,6 +1,6 @@
 {
     "name": "Collabora",
-    "id": "collabora",
+    "id": "collaboradocker",
     "url": "https://nextcloud.com/collaboraonline/",
     "packaging_format": 1,
     "description": {
