@@ -15,7 +15,9 @@ do
 done
 domaines=$(echo $domaines | sed 's/^|//g');
 
-options="-p $port:9980 -e domain=$domaines --cap-add MKNOD"
+server_name=$(ynh_app_setting_get "$app" domain)
+
+options="-p $port:9980 -e domain=$domaines -e server_name=$server_name --cap-add MKNOD"
 
 docker run -d --name=$app --restart always $options $image 1>&2
 RT=$?
