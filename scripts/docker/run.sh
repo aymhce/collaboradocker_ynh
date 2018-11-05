@@ -2,7 +2,7 @@
 
 source /usr/share/yunohost/helpers
 
-[ "$architecture" == "amd64" ] && image=collabora/code:3.2.0.3
+[ "$architecture" == "amd64" ] && image=collabora/code:3.4.0.8
 [ -z $image ] && ynh_die "Sorry, your $architecture architecture is not supported ..."
 
 [ "$(docker info 2>/dev/null | grep 'Storage Driver' | awk -F': ' '{print $2}')" == "aufs" ] \
